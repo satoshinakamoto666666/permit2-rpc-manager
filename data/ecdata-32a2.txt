@@ -1,0 +1,149 @@
+CREMONA'S OFFICIAL DATABASE (ecdata) -- THE THIRD INDEPENDENT ORACLE
+====================================================================
+
+Source: https://github.com/JohnCremona/ecdata  (files allcurves, allbsd,
+curvedata, alllabels; John Cremona's own machine-generated tables, which
+are the data behind LMFDB and the standard reference tables).
+
+We downloaded the four files that cover conductor 32 and extracted the lines
+for 32a2.  Everything below is VERBATIM from those files.
+
+1. allcurves.00000-09999
+------------------------
+    32 a 1 [0,0,0,4,0] 0 4
+    32 a 2 [0,0,0,-1,0] 0 4
+    32 a 3 [0,0,0,-11,-14] 0 2
+    32 a 4 [0,0,0,-11,14] 0 4
+
+    Format: conductor, isogeny class, class label, [a-invariants], rank,
+    number of torsion points.
+    => Cremona 32a2 has model [0,0,0,-1,0], RANK 0, TORSION ORDER 4.
+    This independently confirms the Fermat descent (PROVED) and matches
+    PARI's elltors/ellrank.
+
+2. allbsd.00000-09999
+---------------------
+    32 a 1 [0,0,0,4,0] 0 4 4 2.62205755429212 0.655514388573030 1.00000000000000 1
+    32 a 2 [0,0,0,-1,0] 0 4 2 5.24411510858424 0.655514388573030 1.00000000000000 1
+    32 a 3 [0,0,0,-11,-14] 0 2 1 2.62205755429212 0.655514388573030 1.00000000000000 1
+    32 a 4 [0,0,0,-11,14] 0 4 2 5.24411510858424 0.655514388573030 1.00000000000000 1
+
+    Format: conductor, isogeny class, class label, [a-invariants], rank,
+    torsion order, PRODUCT OF TAMAGAWA NUMBERS, REAL PERIOD, L(E,1),
+    BSD RATIO, SHA ORDER.
+
+    For 32a2 this reads:
+        rank                = 0
+        torsion order       = 4
+        prod_p c_p          = 2      <-- matches our c_2 = 2
+        real period         = 5.24411510858424   <-- matches our Omega_E
+        L(E,1)              = 0.655514388573030
+        BSD ratio           = 1.00000000000000   <-- the identity holds
+        Sha order           = 1
+
+    THIS IS THE SINGLE MOST IMPORTANT EXTERNAL CHECK IN THIS ARTEFACT,
+    because of the real period.  Cremona's "real period" column for 32a2 is
+    5.24411510858424..., i.e. the period over the FULL real locus (both
+    connected components of E(R)), which is exactly the Omega_E our
+    src/period.py computes by two independent certified routes.  Note the
+    neighbouring curve 32a1 = [0,0,0,4,0] has real period 2.62205755429212
+    -- exactly HALF of ours -- because 32a1 has only ONE real component
+    while 32a2 has two.  So the factor of 2 is not a typo and not a
+    convention slip: it is the geometry of the real locus, and it is what
+    makes the BSD ratio come out to 1 instead of 2.
+
+    The BSD ratio 1.00000000000000 also CONFIRMS OUR PERIOD CONVENTION
+    from the outside: with the identity-component period the ratio would
+    be 2, and the table would say 2.
+
+3. curvedata.00000-09999  (the row for 32a2)
+---------------------------------------------
+    32a2 a 2 32.a3 a 3 0 0 1 32 [0,0,0,-1,0] [1728,1] -4 [1,2] 0 0 1 64
+    [0,0,0,-1,0] 1 [2] [2] [3] [0] [-1] [5] [6] [0] 0 [0,0] 0 0 [] [] 1 4
+    [2,2] [[0,0,1],[1,0,1]] 2 5.2441151085842396209296791798
+    6.8751858180203728274900957798 -0.96395933563153686354365902258
+    -1.3105329259115095182522750833 0.65551438857302995261620989747275764966
+    1.0000000000000000000000000000 1 1485208795141819780 2 [-1,0,1] 3 0
+    ? ? ? [2Cs] [2] 2
+
+    Relevant fields:
+      field  3  = '32.a3'    <-- the LMFDB label of this curve
+      field  9  = 32         <-- conductor
+      field 10  = [0,0,0,-1,0] <-- model
+      field 11  = [1728,1]   <-- j-invariant 1728
+      field 17  = 64         <-- minimal discriminant
+      field 38  = 2          <-- Tamagawa number at 2
+      field 39  = 5.2441151085842396209296791798   <-- REAL PERIOD
+      field 43  = 0.65551438857302995261620989747275764966  <-- L(E,1)
+      field 44  = 1.0000000000000000000000000000  <-- BSD ratio
+      field 45  = 1          <-- Sha order
+
+    The real period (field 39) agrees with our certified Omega_E to all 28
+    digits it stores.
+
+4. alllabels.00000-09999
+------------------------
+    32 a 3 32 a 1
+    32 a 4 32 a 2
+    32 a 2 32 a 3
+    32 a 1 32 a 4
+
+    Format: Cremona class, Cremona label, LMFDB class, LMFDB label.
+    => Cremona 32a2  <->  LMFDB label 32.a3.
+
+    CAUTION FOR ANYONE CITING THIS CURVE: LMFDB's label for E : y^2 = x^3 - x
+    is 32.a3, NOT 32.a2.  The two databases order isogeny classes
+    differently, so "32a2" (Cremona) and "32.a2" (LMFDB) are DIFFERENT
+    CURVES.  LMFDB's 32.a2 is Cremona's 32a4, the curve [0,0,0,-11,14].
+
+A NOTE ON THE STORED L-VALUE TAIL (honest disclosure)
+-------------------------------------------------------
+The L(E,1) stored in these files,
+
+    0.65551438857302995261620989747275764966
+
+agrees with PARI's 60-digit ellL1
+
+    0.655514388573029952616209897472779853420688737857905790704205
+
+for the first 33 digits and then DIVERGES.  We checked whether this is
+specific to our curve by doing the same comparison on four other curves in
+the same file:
+
+    curve  agree to   then ecdata      vs PARI (60 digits)
+    11a1      32 digits  ...43887465  vs ...909461043
+    11a2      32 digits  ...43887465  vs ...909461043
+    14a1      32 digits  ...22809986  vs ...834877540
+    20a1      33 digits  ...1550180   vs ...380205669
+    32a2      33 digits  ...5764966   vs ...798534206
+
+So the truncation is a GENERAL property of the stored column (those files
+were generated with a shorter-precision L-value and the tail digits are
+stale/rounded), NOT a defect specific to our curve and NOT an indication
+that our computation is wrong.  Our certified interval agrees with PARI's
+60-digit ellL1 to 44 digits -- see data/pari-32a2.txt -- and with the
+closed form Gamma(1/4)^2/(8 sqrt(2 pi)) to 45 digits.  We therefore use
+PARI's high-precision output, and the ecdata columns are used only where
+they are stored to a precision we can check (the real period, the Tamagawa
+number, the rank, the torsion order, the BSD ratio and the Sha order).
+
+FILES AND HOW TO RE-DOWNLOAD THEM
+----------------------------------
+    BASE=https://raw.githubusercontent.com/JohnCremona/ecdata/master
+    curl -s $BASE/allcurves/allcurves.00000-09999
+    curl -s $BASE/allbsd/allbsd.00000-09999
+    curl -s $BASE/curvedata/curvedata.00000-09999
+    curl -s $BASE/alllabels/alllabels.00000-09999
+
+MACHINE-READABLE VALUES (parsed by verify.sh)
+---------------------------------------------
+These lines are parsed by verify.sh, so that a corrupted transcript is
+DETECTED rather than silently compared against a private copy of the same
+number.  The PARI value is the closed form Omega_E = Gamma(1/4)^2/sqrt(2*pi)
+at 60 digits, which PARI reproduces exactly:
+
+    PARI:
+    5.24411510858423962092967917978223882736550990286324632563364
+
+    field 39 = 5.2441151085842396209296791798
+

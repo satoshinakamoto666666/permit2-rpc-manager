@@ -1,0 +1,11 @@
+2-primary part of Sha(E) for E : y^2 = x^3 - x
+  inference used : S = R_upper - r, from PARI C = T + R + S (exact when the bounds coincide)
+  CONTROL on PARI's own worked example ellinit([-113^2,0]):
+    inferred 2-rank of Sha = 2 (manual states Sha ~ (Z/4Z)^2, 2-rank 2)  -> CONTROL OK
+
+  ellrank(E) rank bounds : r = 0, R = 0  (rank certified 0: True)
+  2-rank of Sha          : 0
+  => Sha(E)[2] = 0 (trivial): True
+
+  NOTE: this certifies the 2-PRIMARY part only.  The odd part of Sha
+  is NOT settled by a 2-descent and is CITED, not proved, here.
