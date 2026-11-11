@@ -1793,6 +1793,7 @@ class DeSciIntentSolverMCPCore:
                     "fork_pr_url": fork_pr_url,
                     "one_click_upstream_compare_url_present": bool(compare_url or fork_pr_url),
                     "upstream_compare_url": compare_url,
+                    "cross_reference_header": f"Fixes {repo_str}#{issue_num}\nCloses {repo_str}#{issue_num}\n/claim #{issue_num}",
                     "commit_sha": commit_sha,
                     "tests_passed": t_passed,
                     "merge_ready": bool(commit_sha and t_passed > 0),
@@ -1802,7 +1803,7 @@ class DeSciIntentSolverMCPCore:
         ready_count = sum(1 for c in readiness_cards if c["merge_ready"])
         domain = {
             "name": "DeSciPRMergeReadinessAuditor",
-            "version": "1.7.0",
+            "version": "2.0.0",
             "chainId": BASE_CHAIN_ID,
             "verifyingContract": self.vault.evm_address,
         }
@@ -2359,7 +2360,7 @@ class DeSciIntentSolverMCPCore:
                     "capabilities": {"tools": {"listChanged": False}, "resources": {"listChanged": False}},
                     "serverInfo": {
                         "name": "desci-mcp-monetizer",
-                        "version": "1.9.0",
+                        "version": "2.0.0",
                         "erc8004Agent": EVM_CAIP10,
                         "solanaAgent": SOLANA_CAIP10,
                     },
@@ -3204,11 +3205,13 @@ def generate_mcp_monetizer_status(
     commit_sha = github_res.get("commit_sha", "")
 
     status_doc: Dict[str, Any] = {
-        "schema_version": "1.9.0",
+        "schema_version": "2.0.0",
+        "empire_version": "2.0.0",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "agent": "desci-mcp-monetizer",
         "server_file": str(DESCI_MCP_DIR / "intent_solver_mcp.py"),
         "test_file": str(DESCI_MCP_DIR / "test_intent_solver_mcp.py"),
+        "rustchain_mainnet_node": "https://50.28.86.131",
         "security_and_compliance": {
             "raw_secrets_exposed": False,
             "private_keys_exposed": False,
@@ -3231,6 +3234,7 @@ def generate_mcp_monetizer_status(
             "bsd_rank0_curves_certified": 284,
             "bsd_rank1_curves_certified": 22,
             "eas_offchain_v2_attestations_generated": sample_eas_pack["total_attestations"],
+            "rustchain_mainnet_node": "https://50.28.86.131",
             "unit_tests_passed": int(tests_info.get("tests_passed", 14)),
             "total_unit_tests_passed": int(tests_info.get("tests_passed", 14)),
             "github_commit_sha": commit_sha,
