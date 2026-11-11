@@ -2360,7 +2360,7 @@ class DeSciIntentSolverMCPCore:
                     "capabilities": {"tools": {"listChanged": False}, "resources": {"listChanged": False}},
                     "serverInfo": {
                         "name": "desci-mcp-monetizer",
-                        "version": "2.0.0",
+                        "version": "2.1.0",
                         "erc8004Agent": EVM_CAIP10,
                         "solanaAgent": SOLANA_CAIP10,
                     },
@@ -3205,8 +3205,8 @@ def generate_mcp_monetizer_status(
     commit_sha = github_res.get("commit_sha", "")
 
     status_doc: Dict[str, Any] = {
-        "schema_version": "2.0.0",
-        "empire_version": "2.0.0",
+        "schema_version": "2.1.0",
+        "empire_version": "2.1.0",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "agent": "desci-mcp-monetizer",
         "server_file": str(DESCI_MCP_DIR / "intent_solver_mcp.py"),
