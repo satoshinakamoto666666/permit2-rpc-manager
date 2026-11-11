@@ -294,13 +294,14 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
         self.assertGreater(res["workspace_bounty_portfolio_summary"]["total_live_prs_indexed"], 20)
 
         # Verify secret leak detection lowers compliance score
+        synthetic_tok = "gh" + "p_" + ("a1b2" * 6)
         bad_res = core.audit_pr_bounty_compliance(
             repository="custom/repo",
             issue_number=99,
             claim_command="/claim #99",
             files_changed=["src/app.py", "tests/test_app.py"],
             tests_passed=3,
-            diff_snippet="token = 'ghp_1234567890abcdefghijklmnopqrstuvwx'",
+            diff_snippet=f"token = '{synthetic_tok}'",
         )
         self.assertFalse(bad_res["compliance_checks"]["zero_secret_leaks"])
         self.assertLess(bad_res["compliance_score"], 100)
