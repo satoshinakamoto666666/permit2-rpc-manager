@@ -332,7 +332,7 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
         )
         self.assertEqual(init_status, 200)
         self.assertEqual(init_resp["result"]["serverInfo"]["name"], "desci-mcp-monetizer")
-        self.assertEqual(init_resp["result"]["serverInfo"]["version"], "2.3.0")
+        self.assertEqual(init_resp["result"]["serverInfo"]["version"], "2.4.0")
 
         list_status, _, list_resp = self._http_call(
             "/mcp",

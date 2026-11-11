@@ -1741,6 +1741,7 @@ class DeSciIntentSolverMCPCore:
             ("zio_rust_coder", DESCI_MCP_DIR.parent / "zio_rust_coder" / "zio_rust_prs.json"),
             ("systems_coder", DESCI_MCP_DIR.parent / "systems_coder" / "systems_prs.json"),
             ("fullstack_coder", DESCI_MCP_DIR.parent / "fullstack_coder" / "fullstack_prs.json"),
+            ("rustchain_earner", DESCI_MCP_DIR.parent / "rustchain_earner" / "rustchain_status.json"),
         ]
         all_prs: List[Dict[str, Any]] = []
         by_agent_counts: Dict[str, int] = {}
@@ -1809,7 +1810,7 @@ class DeSciIntentSolverMCPCore:
         ready_count = sum(1 for c in readiness_cards if c["merge_ready"])
         domain = {
             "name": "DeSciPRMergeReadinessAuditor",
-            "version": "2.2.0",
+            "version": "2.4.0",
             "chainId": BASE_CHAIN_ID,
             "verifyingContract": self.vault.evm_address,
         }
@@ -2367,7 +2368,7 @@ class DeSciIntentSolverMCPCore:
                     "capabilities": {"tools": {"listChanged": False}, "resources": {"listChanged": False}},
                     "serverInfo": {
                         "name": "desci-mcp-monetizer",
-                        "version": "2.3.0",
+                        "version": "2.4.0",
                         "erc8004Agent": EVM_CAIP10,
                         "solanaAgent": SOLANA_CAIP10,
                     },
@@ -3212,8 +3213,8 @@ def generate_mcp_monetizer_status(
     commit_sha = github_res.get("commit_sha", "")
 
     status_doc: Dict[str, Any] = {
-        "schema_version": "2.3.0",
-        "empire_version": "2.3.0",
+        "schema_version": "2.4.0",
+        "empire_version": "2.4.0",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "agent": "desci-mcp-monetizer",
         "server_file": str(DESCI_MCP_DIR / "intent_solver_mcp.py"),
