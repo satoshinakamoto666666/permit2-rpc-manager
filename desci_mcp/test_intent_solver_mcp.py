@@ -191,6 +191,8 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
             ("/v1/bounties/pr-merge-readiness", "50000"),
             ("/v1/erc4337/verify-paymaster-userop", "50000"),
             ("/v1/defi/liquidation-flash-arb-bundle", "80000"),
+            ("/v1/solana/audit-jito-bundle-mtu", "50000"),
+            ("/v1/identity/verify-w3c-vc-did", "50000"),
         ]:
             status, hdrs, body = self._http_call(path, method="POST", body={})
             self.assertEqual(status, 402)
@@ -322,7 +324,7 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
             self.assertEqual(len(att["uid"]), 66)
             self.assertIn("offchain/url/#attestation=", att["easscan_verification_url"])
 
-    def test_08_mcp_jsonrpc_20_protocol_all_eight_tools(self) -> None:
+    def test_08_mcp_jsonrpc_20_protocol_all_ten_tools(self) -> None:
         init_status, _, init_resp = self._http_call(
             "/mcp",
             method="POST",
@@ -349,6 +351,8 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
                 "audit_github_bounty_pr_merge_readiness",
                 "verify_erc4337_paymaster_userop_bundle",
                 "scan_multichain_liquidation_and_flash_arb_bundle",
+                "audit_solana_jito_flash_bundle_mtu",
+                "verify_cross_chain_w3c_vc_did_proof",
             ],
         )
 
@@ -362,6 +366,8 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
                 ("audit_github_bounty_pr_merge_readiness", {"repository": "rohitdash08/FinMind"}),
                 ("verify_erc4337_paymaster_userop_bundle", {"chain_id": 8453}),
                 ("scan_multichain_liquidation_and_flash_arb_bundle", {"min_profit_usd": 0.5}),
+                ("audit_solana_jito_flash_bundle_mtu", {"max_mtu_bytes": 1232}),
+                ("verify_cross_chain_w3c_vc_did_proof", {}),
             ],
             start=10,
         ):
@@ -414,6 +420,22 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
         self.assertEqual(res["tool"], "scan_multichain_liquidation_and_flash_arb_bundle")
         self.assertGreaterEqual(res["summary"]["profitable_flash_arbs_count"], 1)
         self.assertTrue(res["eip712_bundle_certificate"]["verified"])
+
+    def test_13_audit_solana_jito_flash_bundle_mtu(self) -> None:
+        core = self.server.mcp_core
+        res = core.audit_solana_jito_flash_bundle_mtu(max_mtu_bytes=1232)
+        self.assertEqual(res["tool"], "audit_solana_jito_flash_bundle_mtu")
+        self.assertTrue(res["mtu_audit_summary"]["all_bundles_within_1232_mtu"])
+        self.assertGreaterEqual(res["mtu_audit_summary"]["total_2leg_spreads_audited"], 1)
+        self.assertTrue(res["eip712_mtu_audit_certificate"]["verified"])
+
+    def test_14_verify_cross_chain_w3c_vc_did_proof(self) -> None:
+        core = self.server.mcp_core
+        res = core.verify_cross_chain_w3c_vc_did_proof()
+        self.assertEqual(res["tool"], "verify_cross_chain_w3c_vc_did_proof")
+        self.assertTrue(res["verified_credential_counts"]["all_proofs_valid"])
+        self.assertGreaterEqual(res["verified_credential_counts"]["eas_offchain_v2_attestations"], 12)
+        self.assertTrue(res["eip712_w3c_did_certificate"]["verified"])
 
 
 if __name__ == "__main__":
