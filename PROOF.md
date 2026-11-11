@@ -2,9 +2,9 @@
 
 ## 1. Scope of the Family & Partition of Conductor $1 \le N \le 100$
 
-By the Modularity Theorem (Wiles 1995; Breuil–Conrad–Diamond–Taylor 2001) and Cremona's exhaustive classification of modular elliptic curves over $\mathbb{Q}$ (`allbsd.00000-09999`), there are exactly **306 isomorphism classes of elliptic curves over $\mathbb{Q}$ of conductor $1 \le N \le 100$**, partitioned into **96 isogeny classes**:
+By the Modularity Theorem (Wiles 1995; Breuil–Conrad–Diamond–Taylor 2001) and Cremona's exhaustive classification of modular elliptic curves over $\mathbb{Q}$ (`allbsd.00000-09999`), there are exactly **306 isomorphism classes of elliptic curves over $\mathbb{Q}$ of conductor $1 \le N \le 100$**, partitioned into **93 isogeny classes**:
 - **284 curves across 76 isogeny classes of rank $r = 0$** (global root number $w(E) = +1$, $L(E, 1) > 0$, regulator $\operatorname{Reg}_E = 1$).
-- **22 curves across 20 isogeny classes of rank $r = 1$** (global root number $w(E) = -1$, $L(E, 1) = 0$ identically by the odd functional equation $\Lambda(E, s) = -\Lambda(E, 2-s)$).
+- **22 curves across 17 isogeny classes of rank $r = 1$** (global root number $w(E) = -1$, $L(E, 1) = 0$ identically by the odd functional equation $\Lambda(E, s) = -\Lambda(E, 2-s)$).
 
 For every rank-0 curve $E/\mathbb{Q}$, the Birch and Swinnerton-Dyer leading-coefficient identity predicts:
 $$\frac{L(E, 1)}{\Omega_E} = \frac{\#\operatorname{Sha}(E/\mathbb{Q}) \cdot \prod_{p \mid \Delta} c_p}{\left(\#E(\mathbb{Q})_{\text{tors}}\right)^2}, \qquad \text{or equivalently} \qquad \operatorname{Sha}_{\text{an}}(E/\mathbb{Q}) := \frac{L(E, 1) \cdot \left(\#E(\mathbb{Q})_{\text{tors}}\right)^2}{\Omega_E \cdot \prod_{p \mid \Delta} c_p} = \#\operatorname{Sha}(E/\mathbb{Q}) \in \{k^2 : k \in \mathbb{Z}_{\ge 1}\}.$$

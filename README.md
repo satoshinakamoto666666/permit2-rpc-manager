@@ -1,6 +1,6 @@
 # BSD Counterexample Hunt: Generalized Rank-0 Verifier for Conductor $N \le 100$ (`bsd-rank0-100`)
 
-Self-contained, zero-dependency verification repository generalizing the certified rank-0 BSD pipeline to **every rank-0 elliptic curve over $\mathbb{Q}$ of conductor $N \le 100$** (**284 rank-0 curves across 76 isogeny classes**, out of 306 total curves for $N \le 100$).
+Self-contained, zero-dependency verification repository generalizing the certified rank-0 BSD pipeline to **every rank-0 elliptic curve over $\mathbb{Q}$ of conductor $N \le 100$** (**284 rank-0 curves across 76 isogeny classes**, plus 22 rank-1 curves across 17 isogeny classes, totaling **306 curves across 93 isogeny classes** for $1 \le N \le 100$).
 
 ## Quick Start (One-Command Verification)
 

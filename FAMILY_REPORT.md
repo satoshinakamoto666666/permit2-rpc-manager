@@ -4,16 +4,16 @@
 
 | Metric | Value | Verification Status |
 |---|---|---|
-| Total elliptic curves over $\mathbb{Q}$ of conductor $1 \le N \le 100$ | **306** (84 isogeny classes) | `COMPUTED` + Cross-checked against `allbsd` |
+| Total elliptic curves over $\mathbb{Q}$ of conductor $1 \le N \le 100$ | **306** (93 isogeny classes) | `COMPUTED` + Cross-checked against `allbsd` |
 | Rank-0 curves ($L(E, 1) > 0$, global root number $w = +1$) | **284** (76 isogeny classes) | `PROVED` + `COMPUTED` |
-| Rank-1 curves ($L(E, 1) = 0$, global root number $w = -1$) | **22** (8 isogeny classes) | `COMPUTED` + `CITED` |
+| Rank-1 curves ($L(E, 1) = 0$, global root number $w = -1$) | **22** (17 isogeny classes) | `COMPUTED` + `CITED` |
 | Curves with certified $\operatorname{Sha}_{\text{an}}(E/\mathbb{Q}) = 1 = 1^2$ | **283** | `PROVED` (interval width $< 10^{-25}$) |
 | Curves with certified $\operatorname{Sha}_{\text{an}}(E/\mathbb{Q}) = 4 = 2^2$ | **1 (`66b3`: $[1,1,1,-352,-2689]$)** | `PROVED` (interval width $< 10^{-25}$) |
 | Verified BSD counterexamples / table mismatches | **0** | Independent re-derivation matches Cremona `allbsd` on **284/284** curves |
 
 ## 2. Spotlight: Unique Non-Trivial $\operatorname{Sha}$ Curve `66b3` ($N = 66$)
 
-Within isogeny class `66b` ($L(66\text{b}, 1) = 0.453121417471989\dots$), Cassels–Tate isogeny invariance
+Within isogeny class `66b` ($L(66\text{b}, 1) = 1.102192530121609\dots$, with $\Omega_{66\text{b}3}/\Omega_{66\text{b}1} = 1/4$), Cassels–Tate isogeny invariance
 $$\frac{\Omega_E \cdot \prod_p c_p \cdot \#\operatorname{Sha}_{\text{an}}(E/\mathbb{Q})}{(\#E(\mathbb{Q})_{\text{tors}})^2} = L(E, 1)$$
 holds across all four curves `66b1`–`66b4`, while the individual factors redistribute so that `66b3` acquires $\#\operatorname{Sha}_{\text{an}}(66\text{b}3/\mathbb{Q}) = 4 = 2^2$:
 
@@ -313,7 +313,7 @@ holds across all four curves `66b1`–`66b4`, while the individual factors redis
 | `100a3` | `[0,-1,0,-1033,-12438]` | `2` | `2` | `6` | 2:IV(c=3), 5:I3*(c=2) | `0.842065974850826` | `1.263098962276239` | `1` (`3.014e-31`) |
 | `100a4` | `[0,-1,0,-908,-15688]` | `1` | `2` | `12` | 2:IV*(c=3), 5:I6*(c=4) | `0.421032987425413` | `1.263098962276239` | `1` (`3.014e-31`) |
 
-## 4. Excluded Rank-1 Curves of Conductor $N \le 100$ (22 Curves Across 8 Isogeny Classes)
+## 4. Excluded Rank-1 Curves of Conductor $N \le 100$ (22 Curves Across 17 Isogeny Classes)
 
 All 22 remaining curves of conductor $N \le 100$ have analytic and algebraic rank $r = 1$ ($w(E) = -1$, $L(E, 1) = 0$):
 

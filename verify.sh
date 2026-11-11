@@ -75,7 +75,13 @@ for parts in raw:
         sys.exit(f"Missing curve {lbl} in FAMILY_REPORT.md")
 if "| `66b3` | `[1,1,1,-352,-2689]` | `2` | `1` |" not in txt or "**`4`**" not in txt:
     sys.exit("Missing 66b3 Sha=4 row in FAMILY_REPORT.md")
-print("  [PASS] FAMILY_REPORT.md contains all 306 curves (284 rank-0 + 22 rank-1) and 66b3 Sha_an=4 spotlight.")
+for req in ("**306** (93 isogeny classes)", "**284** (76 isogeny classes)", "**22** (17 isogeny classes)", "1.102192530121609"):
+    if req not in txt:
+        sys.exit(f"Missing required corrected figure in FAMILY_REPORT.md: {req}")
+for bad in ("84 isogeny", "96 isogeny", "8 isogeny", "20 isogeny", "0.453121417471989"):
+    if bad in txt:
+        sys.exit(f"Stale incorrect figure found in FAMILY_REPORT.md: {bad}")
+print("  [PASS] FAMILY_REPORT.md contains all 306 curves (93 isogeny classes: 284 rank-0 / 76 classes + 22 rank-1 / 17 classes) and 66b3 spotlight (L(66b,1)=1.102192530121609, Sha_an=4).")
 PY
 
 echo "[Step 6/7] Checking epistemic boundary alignment between CLAIMS.md and OPEN_REMAINDER.md..."
