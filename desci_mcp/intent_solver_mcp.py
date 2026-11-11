@@ -1739,6 +1739,8 @@ class DeSciIntentSolverMCPCore:
             ("github_earner", DESCI_MCP_DIR.parent / "github_earner" / "live_prs.json"),
             ("bounty_sweeper", DESCI_MCP_DIR.parent / "bounty_sweeper" / "sweeper_prs.json"),
             ("zio_rust_coder", DESCI_MCP_DIR.parent / "zio_rust_coder" / "zio_rust_prs.json"),
+            ("systems_coder", DESCI_MCP_DIR.parent / "systems_coder" / "systems_prs.json"),
+            ("fullstack_coder", DESCI_MCP_DIR.parent / "fullstack_coder" / "fullstack_prs.json"),
         ]
         all_prs: List[Dict[str, Any]] = []
         by_agent_counts: Dict[str, int] = {}
@@ -1780,6 +1782,8 @@ class DeSciIntentSolverMCPCore:
             reward = float(p.get("reward_usd") or p.get("bounty_usd") or 0.0)
             total_reward_usd += reward
             fork_pr_url = str(p.get("fork_pr_url") or p.get("pr_url") or "")
+            upstream_pr_url = str(p.get("upstream_pr_url") or "")
+            upstream_claim_comment_url = str(p.get("upstream_claim_comment_url") or "")
             compare_url = str(p.get("upstream_compare_url") or p.get("compare_url") or "")
             commit_sha = str(p.get("commit_sha") or p.get("head_sha") or "")
             t_passed = int(p.get("tests_passed") or p.get("unit_tests_passed") or 8)
@@ -1791,6 +1795,8 @@ class DeSciIntentSolverMCPCore:
                     "reward_usd": reward,
                     "fork_pr_open": bool(fork_pr_url),
                     "fork_pr_url": fork_pr_url,
+                    "upstream_pr_url": upstream_pr_url,
+                    "upstream_claim_comment_url": upstream_claim_comment_url,
                     "one_click_upstream_compare_url_present": bool(compare_url or fork_pr_url),
                     "upstream_compare_url": compare_url,
                     "cross_reference_header": f"Fixes {repo_str}#{issue_num}\nCloses {repo_str}#{issue_num}\n/claim #{issue_num}",
@@ -1803,7 +1809,7 @@ class DeSciIntentSolverMCPCore:
         ready_count = sum(1 for c in readiness_cards if c["merge_ready"])
         domain = {
             "name": "DeSciPRMergeReadinessAuditor",
-            "version": "2.0.0",
+            "version": "2.2.0",
             "chainId": BASE_CHAIN_ID,
             "verifyingContract": self.vault.evm_address,
         }
@@ -2360,7 +2366,7 @@ class DeSciIntentSolverMCPCore:
                     "capabilities": {"tools": {"listChanged": False}, "resources": {"listChanged": False}},
                     "serverInfo": {
                         "name": "desci-mcp-monetizer",
-                        "version": "2.1.0",
+                        "version": "2.2.0",
                         "erc8004Agent": EVM_CAIP10,
                         "solanaAgent": SOLANA_CAIP10,
                     },
@@ -3205,8 +3211,8 @@ def generate_mcp_monetizer_status(
     commit_sha = github_res.get("commit_sha", "")
 
     status_doc: Dict[str, Any] = {
-        "schema_version": "2.1.0",
-        "empire_version": "2.1.0",
+        "schema_version": "2.2.0",
+        "empire_version": "2.2.0",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "agent": "desci-mcp-monetizer",
         "server_file": str(DESCI_MCP_DIR / "intent_solver_mcp.py"),
