@@ -189,6 +189,8 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
             ("/v1/eas/offchain-attest", "20000"),
             ("/v1/desci/bsd-millennium-verify", "100000"),
             ("/v1/bounties/pr-merge-readiness", "50000"),
+            ("/v1/erc4337/verify-paymaster-userop", "50000"),
+            ("/v1/defi/liquidation-flash-arb-bundle", "80000"),
         ]:
             status, hdrs, body = self._http_call(path, method="POST", body={})
             self.assertEqual(status, 402)
@@ -320,7 +322,7 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
             self.assertEqual(len(att["uid"]), 66)
             self.assertIn("offchain/url/#attestation=", att["easscan_verification_url"])
 
-    def test_08_mcp_jsonrpc_20_protocol_all_six_tools(self) -> None:
+    def test_08_mcp_jsonrpc_20_protocol_all_eight_tools(self) -> None:
         init_status, _, init_resp = self._http_call(
             "/mcp",
             method="POST",
@@ -345,6 +347,8 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
                 "generate_eas_offchain_attestation_pack",
                 "verify_bsd_millennium_proof_bundle",
                 "audit_github_bounty_pr_merge_readiness",
+                "verify_erc4337_paymaster_userop_bundle",
+                "scan_multichain_liquidation_and_flash_arb_bundle",
             ],
         )
 
@@ -356,6 +360,8 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
                 ("generate_eas_offchain_attestation_pack", {"chains": ["base"]}),
                 ("verify_bsd_millennium_proof_bundle", {"bounty_id": "bnty_0573", "include_featured_curves": False}),
                 ("audit_github_bounty_pr_merge_readiness", {"repository": "rohitdash08/FinMind"}),
+                ("verify_erc4337_paymaster_userop_bundle", {"chain_id": 8453}),
+                ("scan_multichain_liquidation_and_flash_arb_bundle", {"min_profit_usd": 0.5}),
             ],
             start=10,
         ):
@@ -392,6 +398,22 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
         self.assertGreater(res["portfolio_summary"]["total_live_prs_indexed"], 20)
         self.assertGreater(res["portfolio_summary"]["merge_ready_prs_count"], 10)
         self.assertTrue(res["eip712_merge_readiness_certificate"]["verified"])
+
+    def test_11_verify_erc4337_paymaster_userop_bundle(self) -> None:
+        core = self.server.mcp_core
+        res = core.verify_erc4337_paymaster_userop_bundle(chain_id=8453)
+        self.assertEqual(res["tool"], "verify_erc4337_paymaster_userop_bundle")
+        self.assertEqual(res["entry_point_v07"], "0x0000000071727De22E5E9d8BAf0edAc6f37da032")
+        self.assertEqual(len(res["packed_user_operation"]["accountGasLimits"]), 66)
+        self.assertEqual(len(res["packed_user_operation"]["gasFees"]), 66)
+        self.assertTrue(res["eip712_paymaster_certificate"]["verified"])
+
+    def test_12_scan_multichain_liquidation_and_flash_arb_bundle(self) -> None:
+        core = self.server.mcp_core
+        res = core.scan_multichain_liquidation_and_flash_arb_bundle(min_profit_usd=0.5)
+        self.assertEqual(res["tool"], "scan_multichain_liquidation_and_flash_arb_bundle")
+        self.assertGreaterEqual(res["summary"]["profitable_flash_arbs_count"], 1)
+        self.assertTrue(res["eip712_bundle_certificate"]["verified"])
 
 
 if __name__ == "__main__":
