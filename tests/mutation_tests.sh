@@ -6,6 +6,13 @@ cd "$ROOT_DIR"
 
 export PYTHONHASHSEED=0
 export PYTHONDONTWRITEBYTECODE=1
+export PYTHONPATH="src"
+
+if python -c "import sys; assert sys.version_info >= (3, 6)" >/dev/null 2>&1; then
+    PY=python
+else
+    PY=python3
+fi
 
 echo "============================================================================"
 echo "MUTATION TEST SUITE: BSD RANK-0 FAMILY (N <= 100)"
@@ -21,7 +28,7 @@ run_mutation() {
     local replacement="$4"
     local desc="$5"
 
-    python - "$file" "$target" "$replacement" <<'PY'
+    $PY - "$file" "$target" "$replacement" <<'PY'
 import sys
 path, tgt, rep = sys.argv[1], sys.argv[2], sys.argv[3]
 data = open(path, "r", encoding="utf-8").read()

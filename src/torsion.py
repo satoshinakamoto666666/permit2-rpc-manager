@@ -118,3 +118,14 @@ def compute_torsion_group(a1, a2, a3, a4, a6):
     tors_order = len(pts)
     assert red_gcd % tors_order == 0, f"Torsion order {tors_order} does not divide reduction gcd {red_gcd}"
     return tors_order, pts_list, red_gcd
+
+
+if __name__ == "__main__":
+    # Self-test on 11a1 (#E_tors = 5), 32a2 (#E_tors = 4), 66b3 (#E_tors = 2, 2-isogenous to 66b1 with #E_tors = 4)
+    t_11a1, _, g_11a1 = compute_torsion_group(0, -1, 1, -10, -20)
+    assert t_11a1 == 5 and g_11a1 == 5, f"11a1 failed: {t_11a1}, {g_11a1}"
+    t_32a2, _, g_32a2 = compute_torsion_group(0, 0, 0, -1, 0)
+    assert t_32a2 == 4 and g_32a2 == 4, f"32a2 failed: {t_32a2}, {g_32a2}"
+    t_66b3, _, g_66b3 = compute_torsion_group(1, 1, 1, -352, -2689)
+    assert t_66b3 == 2 and g_66b3 == 4, f"66b3 failed: {t_66b3}, {g_66b3}"
+    print("  [PASS] src/torsion.py self-test passed (TORSION-OK)")

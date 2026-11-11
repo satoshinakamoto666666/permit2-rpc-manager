@@ -188,3 +188,15 @@ def tamagawa_product(a1, a2, a3, a4, a6):
         prod_cp *= cp
         local_data.append((temp, kod, cp))
     return prod_cp, local_data
+
+
+if __name__ == "__main__":
+    # Self-test on 11a1 ([0,-1,1,-10,-20], prod c_p = 5), 32a2 ([0,0,0,-1,0], prod c_p = 2), 66b3 ([1,1,1,-352,-2689], prod c_p = 1)
+    cp_11a1, loc_11a1 = tamagawa_product(0, -1, 1, -10, -20)
+    assert cp_11a1 == 5 and loc_11a1 == [(11, "I5_split", 5)], f"11a1 failed: {cp_11a1}, {loc_11a1}"
+    cp_32a2, loc_32a2 = tamagawa_product(0, 0, 0, -1, 0)
+    assert cp_32a2 == 2 and loc_32a2 == [(2, "III", 2)], f"32a2 failed: {cp_32a2}, {loc_32a2}"
+    cp_66b3, loc_66b3 = tamagawa_product(1, 1, 1, -352, -2689)
+    assert cp_66b3 == 1, f"66b3 failed: {cp_66b3}, {loc_66b3}"
+    print("  [PASS] src/tate.py self-test passed (TATE-OK)")
+

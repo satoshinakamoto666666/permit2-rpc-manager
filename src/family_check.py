@@ -16,7 +16,7 @@ Independently re-derives and certifies from pure integer arithmetic:
 import os
 import sys
 
-from cert import Interval, S, verify_cert_self_test
+from cert import Interval, S, isqrt, verify_cert_self_test
 from lval import certified_l_at_1
 from period import certified_real_period
 from tate import b_invariants, tamagawa_product
@@ -89,7 +89,7 @@ def run_family_verification(write_report=False):
         cp_tab = int(parts[6])
         om_tab_str = parts[7]
         lval_tab_str = parts[8]
-        sha_tab = int(round(float(parts[10])))
+        sha_tab = int(parts[10].split(".")[0])
 
         b2, b4, b6, b8, c4, c6, Delta = b_invariants(a1, a2, a3, a4, a6)
         assert Delta != 0, f"Singular curve {label}"
@@ -147,7 +147,7 @@ def run_family_verification(write_report=False):
             raise AssertionError(f"[{label}] Sha_an mismatch: certified {sha_cert} vs table {sha_tab}")
 
         # Verify sha_cert is a positive integer square (Cassels-Tate alternating pairing)
-        root_sha = int(sha_cert ** 0.5 + 0.5)
+        root_sha = isqrt(sha_cert)
         if root_sha * root_sha != sha_cert or sha_cert <= 0:
             raise AssertionError(f"[{label}] Sha_an={sha_cert} is not a positive square!")
 
@@ -178,7 +178,7 @@ def run_family_verification(write_report=False):
             "omega_width": om_iv.width_str(),
             "lval_str": l_iv.to_decimal_str(15),
             "lval_width": l_iv.width_str(),
-            "sha_iv_str": f"[{sha_iv.lo / S:.15f}, {sha_iv.hi / S:.15f}]",
+            "sha_iv_str": sha_iv.to_decimal_str(15),
             "sha_width": sha_iv.width_str(),
             "sha_cert": sha_cert,
         })
@@ -193,7 +193,7 @@ def run_family_verification(write_report=False):
     print(f"         - Real periods Omega_E via integer cubic bisection + Gauss AGM: 284/284 certified")
     print(f"         - Central L-values L(E, 1) via Hecke series + Deligne tail: 76/76 isogeny classes certified")
     print(f"         - Analytic Sha_an(E) integer-square enclosure: 283 curves with Sha_an = 1, 1 curve (66b3) with Sha_an = 4 = 2^2")
-    print(f"         - Counterexamples / mismatches with Cremona allbsd: 0")
+    print(f"         - Counterexamples / mismatches with Cremona allbsd: 0 (FAMILY-CHECK-OK)")
 
     if write_report:
         write_family_report(results, rank1_rows)

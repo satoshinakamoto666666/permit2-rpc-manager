@@ -59,3 +59,12 @@ def certified_real_period(a1, a2, a3, a4, a6):
         b_arg = sqrt_bounds(2 * M_T_iv + 3 * T1_iv)
         agm_iv = agm_bounds(a_arg, b_arg)
         return num_iv / agm_iv, 1
+
+
+if __name__ == "__main__":
+    om_32a2, c_32a2 = certified_real_period(0, 0, 0, -1, 0)
+    assert c_32a2 == 2 and om_32a2.to_decimal_str(12).startswith("5.24411510858"), f"32a2 period failed: {om_32a2.to_decimal_str(15)}"
+    om_66b3, c_66b3 = certified_real_period(1, 1, 1, -352, -2689)
+    assert c_66b3 == 2 and om_66b3.to_decimal_str(12).startswith("1.10219253012"), f"66b3 period failed: {om_66b3.to_decimal_str(15)}"
+    print("  [PASS] src/period.py self-test passed (PERIOD-OK)")
+

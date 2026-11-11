@@ -100,3 +100,12 @@ def certified_l_at_1(N, a1, a2, a3, a4, a6, N0=115):
     tail_den = Interval.from_int(1) - exp_neg_bounds(c_iv)
     tail_bound = (tail_num / tail_den).hi + 10
     return Interval(val_iv.lo - tail_bound, val_iv.hi + tail_bound), an
+
+
+if __name__ == "__main__":
+    l_32a2, _ = certified_l_at_1(32, 0, 0, 0, -1, 0, N0=115)
+    assert l_32a2.to_decimal_str(12).startswith("0.65551438857"), f"32a2 L(E,1) failed: {l_32a2.to_decimal_str(15)}"
+    l_66b3, _ = certified_l_at_1(66, 1, 1, 1, -352, -2689, N0=115)
+    assert l_66b3.to_decimal_str(12).startswith("1.10219253012"), f"66b3 L(E,1) failed: {l_66b3.to_decimal_str(15)}"
+    print("  [PASS] src/lval.py self-test passed (LVAL-OK)")
+

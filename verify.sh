@@ -6,6 +6,13 @@ cd "$ROOT_DIR"
 
 export PYTHONHASHSEED=0
 export PYTHONDONTWRITEBYTECODE=1
+export PYTHONPATH="src"
+
+if python -c "import sys; assert sys.version_info >= (3, 6)" >/dev/null 2>&1; then
+    PY=python
+else
+    PY=python3
+fi
 
 echo "============================================================================"
 echo "VERIFYING BSD RANK-0 FAMILY (CONDUCTOR N <= 100, 284 CURVES / 76 ISOGENIES)"
@@ -26,34 +33,39 @@ for tag in "PROVED" "COMPUTED" "CITED" "| \`OPEN\` |"; do
 done
 echo "  [PASS] All required files and epistemic tags present."
 
-echo "[Step 2/7] Auditing src/cert.py for banned floating-point or external imports..."
-python -c "
+echo "[Step 2/7] Auditing src/cert.py and src/family_check.py for banned floating-point or external imports..."
+$PY - <<'PY'
 import ast, sys
-tree = ast.parse(open('src/cert.py', encoding='utf-8').read())
 banned = {'math', 'cmath', 'decimal', 'fractions', 'numpy', 'scipy', 'mpmath', 'sympy', 'gmpy2'}
-for node in ast.walk(tree):
-    if isinstance(node, ast.Import):
-        for n in node.names:
-            if n.name.split('.')[0] in banned:
-                sys.exit(f'Banned import in cert.py: {n.name}')
-    elif isinstance(node, ast.ImportFrom):
-        if node.module and node.module.split('.')[0] in banned:
-            sys.exit(f'Banned from-import in cert.py: {node.module}')
-    elif isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == 'float':
-        sys.exit('Banned float() call in cert.py')
-    elif isinstance(node, ast.Constant) and isinstance(node.value, float):
-        sys.exit(f'Banned float literal in cert.py: {node.value}')
-print('  [PASS] src/cert.py AST audit passed (100% pure Python int).')
-"
+for fname in ('src/cert.py', 'src/tate.py', 'src/period.py', 'src/lval.py', 'src/family_check.py'):
+    tree = ast.parse(open(fname, encoding='utf-8').read())
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for n in node.names:
+                if n.name.split('.')[0] in banned:
+                    sys.exit(f'Banned import in {fname}: {n.name}')
+        elif isinstance(node, ast.ImportFrom):
+            if node.module and node.module.split('.')[0] in banned:
+                sys.exit(f'Banned from-import in {fname}: {node.module}')
+        elif isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == 'float':
+            sys.exit(f'Banned float() call in {fname}')
+        elif isinstance(node, ast.Constant) and isinstance(node.value, float):
+            sys.exit(f'Banned float literal in {fname}: {node.value}')
+print('  [PASS] AST audit passed (100% pure Python int in cert.py, tate.py, period.py, lval.py, family_check.py).')
+PY
 
-echo "[Step 3/7] Running fixed-point interval arithmetic self-tests (src/cert.py)..."
-python src/cert.py
+echo "[Step 3/7] Running per-module self-tests (cert.py, tate.py, torsion.py, period.py, lval.py)..."
+$PY src/cert.py
+$PY src/tate.py
+$PY src/torsion.py
+$PY src/period.py
+$PY src/lval.py
 
 echo "[Step 4/7] Running full 284-curve BSD counterexample hunt & family verification (src/family_check.py)..."
-python src/family_check.py
+$PY src/family_check.py
 
 echo "[Step 5/7] Auditing FAMILY_REPORT.md completeness (all 284 rank-0 + 22 rank-1 curves listed)..."
-python - <<'PY'
+$PY - <<'PY'
 import sys
 txt = open("FAMILY_REPORT.md", encoding="utf-8").read()
 raw = [l.split() for l in open("data/allbsd_upto_100.txt", encoding="utf-8") if l.strip()]
