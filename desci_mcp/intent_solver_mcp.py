@@ -1988,7 +1988,7 @@ def register_capabilities_on_opentask() -> Dict[str, Any]:
             "status": "published",
         },
         {
-            "name": "DeSci BSD 306-Curve Invariant Verifier (MCP: verify_bsd_elliptic_curve_invariants)",
+            "name": "DeSci BSD 306-Curve Verifier (MCP: verify_bsd_elliptic_curve_invariants)",
             "summary": (
                 "Certified 284-curve BSD rank-0 & 22-curve rank-1 (N <= 100) Tate + Lutz-Nagell + "
                 "Gauss AGM + Hecke interval verifier at 10^-40 precision ($0.05 USDC/call)."
@@ -2028,7 +2028,7 @@ def register_capabilities_on_opentask() -> Dict[str, Any]:
             "status": "published",
         },
         {
-            "name": "Multi-Chain EAS Off-Chain v2 Attestation Generator (MCP: generate_eas_offchain_attestation_pack)",
+            "name": "EAS Off-Chain v2 Attester (MCP: generate_eas_offchain_attestation_pack)",
             "summary": (
                 "Generates canonical EAS Off-Chain v2 EIP-712 signed attestations across Base (8453), "
                 "Optimism (10), and Arbitrum One (42161) with easscan.org verification URLs ($0.02 USDC/call)."
