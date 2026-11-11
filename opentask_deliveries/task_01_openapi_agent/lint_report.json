@@ -1,0 +1,11 @@
+{
+  "valid": true,
+  "openapi_version": "3.0.3",
+  "paths_count": 5,
+  "operations_count": 6,
+  "schemas_count": 10,
+  "error_count": 0,
+  "warning_count": 0,
+  "errors": [],
+  "warnings": []
+}

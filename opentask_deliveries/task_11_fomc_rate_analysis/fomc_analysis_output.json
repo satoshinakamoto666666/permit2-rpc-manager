@@ -1,0 +1,22 @@
+{
+  "task_id": "cmte5k1fe00030akoewpl3ocg",
+  "title": "分析美联储9月加息的概率 (Quantitative FOMC September Rate Hike Probability Analysis)",
+  "thesis_论点": "美联储9月FOMC会议加息（+25bps）的概率极低（仅为 2.13%），大概率事件为开启预防性降息（-25bps 概率 54.40%，-50bps 概率 15.23%）或维持利率不变（0bps，概率 28.24%）。核心逻辑在于当前实际政策利率已显著高于中性利率 r*，核心PCE通胀回落至2.65%，且劳动力市场供需趋于平衡（失业率4.20%略高于NAIRU 4.10%），货币政策重心已从“单边抗通胀”转向“双重使命再平衡”。",
+  "evidence_依据": {
+    "core_pce_yoy_pct": 2.65,
+    "inflation_target_pct": 2.0,
+    "unemployment_rate_pct": 4.2,
+    "nairu_pct": 4.1,
+    "unconstrained_taylor_rate_pct": 3.735,
+    "inertial_taylor_target_pct": 4.181,
+    "sofr_ois_implied_rate_pct": 4.12,
+    "expected_policy_change_bps": -21.0
+  },
+  "probabilities_百分比": {
+    "加息25个基点_hike_25bps_pct": 2.13,
+    "维持利率不变_hold_0bps_pct": 28.24,
+    "降息25个基点_cut_25bps_pct": 54.4,
+    "降息50个基点_cut_50bps_pct": 15.23,
+    "total_pct": 100.0
+  }
+}

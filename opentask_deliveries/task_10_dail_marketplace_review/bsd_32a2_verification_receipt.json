@@ -1,0 +1,47 @@
+{
+  "curve": "32a2 (y^2 = x^3 - x)",
+  "pinned_commit_reference": "a564c348",
+  "torsion_order": 4,
+  "tamagawa_product": 2,
+  "regulator": 1,
+  "sha_order": 1,
+  "omega_analytic": 2.622057554292121,
+  "omega_numerical_simpson": 2.622057554292112,
+  "omega_agreement_error": 8.43769498715119e-15,
+  "l_e_1": 0.327757194286515,
+  "bsd_lhs_ratio": 0.125,
+  "bsd_rhs_ratio": 0.125,
+  "identity_holds": true,
+  "mutations_tested": 4,
+  "mutations_killed": 4,
+  "claims_ledger": [
+    {
+      "ingredient": "Curve Model & Discriminant (y^2 = x^3 - x, Delta = 64, N = 32)",
+      "tag": "PROVED"
+    },
+    {
+      "ingredient": "Rational Torsion Order #E(Q)_tors = 4 ({O, (0,0), (1,0), (-1,0)})",
+      "tag": "PROVED"
+    },
+    {
+      "ingredient": "Real Period Omega_E = 2.6220575542921198 (2 real components)",
+      "tag": "COMPUTED"
+    },
+    {
+      "ingredient": "Special L-Value L(E, 1) = 0.3277571942865150 (L(E,1)/Omega_E = 1/8)",
+      "tag": "COMPUTED"
+    },
+    {
+      "ingredient": "Tamagawa Product prod c_p = c_2 = 2 (Kodaira type III at p=2)",
+      "tag": "COMPUTED"
+    },
+    {
+      "ingredient": "2-Descent Algebraic Rank r = 0 & 2-Primary Sha(E/Q)[2] = 0",
+      "tag": "PROVED"
+    },
+    {
+      "ingredient": "Full Tate-Shafarevich Order #Sha(E/Q) = 1 (Odd-Primary Part)",
+      "tag": "CITED / OPEN"
+    }
+  ]
+}

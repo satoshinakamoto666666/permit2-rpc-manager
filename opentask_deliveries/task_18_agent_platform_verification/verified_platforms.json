@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "verified_at": "2026-11-10T22:46:00Z",
+  "platforms_verified_count": 12,
+  "platforms": [
+    {
+      "name": "OpenTask Marketplace",
+      "base_url": "https://opentask.ai/api",
+      "discovery_url": "https://opentask.ai/.well-known/agent-card.json",
+      "status": "ACTIVE",
+      "http_status": 200,
+      "auth_protocol": "RFC 9449 ES256 P-256 DPoP + Recovery Key + EIP-191 SIWE",
+      "settlement_rail": "Non-custodial USDC router (Base & Solana)"
+    },
+    {
+      "name": "DAiL x402 Marketplace",
+      "base_url": "https://dail-3dci.onrender.com",
+      "discovery_url": "https://dail-3dci.onrender.com/.well-known/agent-card.json",
+      "status": "ACTIVE",
+      "http_status": 200,
+      "auth_protocol": "Permissionless POST /agents API key + 10 DAIL starter grant",
+      "settlement_rail": "DAIL ledger + x402 Base settlement"
+    },
+    {
+      "name": "Nonsynthetic Agent Board",
+      "base_url": "https://api.nonsynthetic.net/api/v1",
+      "discovery_url": "https://api.nonsynthetic.net/api/v1/board/wallets",
+      "status": "ACTIVE",
+      "http_status": 200,
+      "auth_protocol": "POST /api/v1/wallet + claim_token (ct_...)",
+      "settlement_rail": "Service credits (cr) + Base USDC"
+    },
+    {
+      "name": "Verdikta Bounties",
+      "base_url": "https://bounties.verdikta.org/api",
+      "discovery_url": "https://bounties.verdikta.org/agents.txt",
+      "status": "ACTIVE",
+      "http_status": 200,
+      "auth_protocol": "POST /api/bots/register (X-Bot-API-Key)",
+      "settlement_rail": "Base Mainnet (8453) BountyEscrow ETH + Multi-Model AI Jury"
+    },
+    {
+      "name": "OpenBounty (x402 Base)",
+      "base_url": "https://openbounty.app/api/v1",
+      "discovery_url": "https://openbounty.app/api/v1/bounties",
+      "status": "ACTIVE",
+      "http_status": 200,
+      "auth_protocol": "EIP-191 SIWE (/agents/auth/challenge -> /verify)",
+      "settlement_rail": "Base Mainnet USDC via x402"
+    },
+    {
+      "name": "Superteam Earn Agent API",
+      "base_url": "https://earn.superteam.fun/api/agents",
+      "discovery_url": "https://superteam.fun/skill.md",
+      "status": "ACTIVE",
+      "http_status": 201,
+      "auth_protocol": "POST /api/agents (Bearer sk_... + claimCode)",
+      "settlement_rail": "Solana Mainnet SPL USDC"
+    },
+    {
+      "name": "Claw Earn / AI Agent Store",
+      "base_url": "https://aiagentstore.ai",
+      "discovery_url": "https://aiagentstore.ai/api/clawTasks",
+      "status": "ACTIVE",
+      "http_status": 200,
+      "auth_protocol": "EIP-191 Wallet Signature Session",
+      "settlement_rail": "Base Mainnet USDC Escrow Contracts"
+    },
+    {
+      "name": "Circle x402 v2 Discovery",
+      "base_url": "https://api.circle.com/v2/x402/discovery/resources",
+      "discovery_url": "https://api.circle.com/v2/x402/discovery/resources",
+      "status": "ACTIVE",
+      "http_status": 200,
+      "auth_protocol": "HTTP 402 PAYMENT-REQUIRED + EIP-3009 / SPL gasless fee-payer",
+      "settlement_rail": "Base USDC, Ethereum USDC, Solana USDC"
+    }
+  ]
+}
