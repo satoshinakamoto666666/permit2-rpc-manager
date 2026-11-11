@@ -187,6 +187,8 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
             ("/v1/desci/bsd-verify", "50000"),
             ("/v1/bounties/audit-pr", "20000"),
             ("/v1/eas/offchain-attest", "20000"),
+            ("/v1/desci/bsd-millennium-verify", "100000"),
+            ("/v1/bounties/pr-merge-readiness", "50000"),
         ]:
             status, hdrs, body = self._http_call(path, method="POST", body={})
             self.assertEqual(status, 402)
@@ -318,7 +320,7 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
             self.assertEqual(len(att["uid"]), 66)
             self.assertIn("offchain/url/#attestation=", att["easscan_verification_url"])
 
-    def test_08_mcp_jsonrpc_20_protocol_all_four_tools(self) -> None:
+    def test_08_mcp_jsonrpc_20_protocol_all_six_tools(self) -> None:
         init_status, _, init_resp = self._http_call(
             "/mcp",
             method="POST",
@@ -341,6 +343,8 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
                 "verify_bsd_elliptic_curve_invariants",
                 "audit_pr_bounty_compliance",
                 "generate_eas_offchain_attestation_pack",
+                "verify_bsd_millennium_proof_bundle",
+                "audit_github_bounty_pr_merge_readiness",
             ],
         )
 
@@ -350,6 +354,8 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
                 ("verify_bsd_elliptic_curve_invariants", {"curve_label": "66b3"}),
                 ("audit_pr_bounty_compliance", {"repository": "rohitdash08/FinMind", "issue_number": 144}),
                 ("generate_eas_offchain_attestation_pack", {"chains": ["base"]}),
+                ("verify_bsd_millennium_proof_bundle", {"bounty_id": "bnty_0573", "include_featured_curves": False}),
+                ("audit_github_bounty_pr_merge_readiness", {"repository": "rohitdash08/FinMind"}),
             ],
             start=10,
         ):
@@ -366,6 +372,26 @@ class TestDeSciIntentSolverMCP(unittest.TestCase):
             self.assertEqual(c_status, 200)
             self.assertFalse(c_resp["result"]["isError"])
             self.assertEqual(c_resp["result"]["structuredContent"]["tool"], t_name)
+
+    def test_09_verify_bsd_millennium_proof_bundle(self) -> None:
+        core = self.server.mcp_core
+        res = core.verify_bsd_millennium_proof_bundle(bounty_id="bnty_0573", include_featured_curves=True)
+        self.assertEqual(res["tool"], "verify_bsd_millennium_proof_bundle")
+        self.assertEqual(res["certified_census_summary"]["total_curves_certified"], 306)
+        self.assertEqual(res["certified_census_summary"]["rank_0_curves_certified"], 284)
+        self.assertEqual(res["certified_census_summary"]["rank_1_curves_certified"], 22)
+        self.assertEqual(res["certified_census_summary"]["rank_0_isogeny_classes"], 76)
+        self.assertEqual(res["certified_census_summary"]["sha_order_1_rank0_curves"], 283)
+        self.assertIn("66b3", res["certified_census_summary"]["sha_order_4_rank0_curves"])
+        self.assertTrue(res["eip712_millennium_certificate"]["verified"])
+
+    def test_10_audit_github_bounty_pr_merge_readiness(self) -> None:
+        core = self.server.mcp_core
+        res = core.audit_github_bounty_pr_merge_readiness()
+        self.assertEqual(res["tool"], "audit_github_bounty_pr_merge_readiness")
+        self.assertGreater(res["portfolio_summary"]["total_live_prs_indexed"], 20)
+        self.assertGreater(res["portfolio_summary"]["merge_ready_prs_count"], 10)
+        self.assertTrue(res["eip712_merge_readiness_certificate"]["verified"])
 
 
 if __name__ == "__main__":
